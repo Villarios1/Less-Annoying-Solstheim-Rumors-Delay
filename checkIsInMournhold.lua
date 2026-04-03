@@ -1,15 +1,14 @@
-local currentCell
 local isInMournhold = false
 
-local function checkIsInMournhold()
+local function checkIsInMournhold(currentCell)
     if currentCell.isInterior then
         isInMournhold = currentCell.id:find("Mournhold", 1, true) ~= nil
     end
 end
 
 local function onCellChanged()
-    currentCell = tes3.getPlayerCell()
-    checkIsInMournhold()
+    local currentCell = tes3.getPlayerCell()
+    checkIsInMournhold(currentCell)
 end
 event.register("cellChanged", onCellChanged)
 

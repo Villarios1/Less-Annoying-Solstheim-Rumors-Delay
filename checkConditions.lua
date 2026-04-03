@@ -27,7 +27,7 @@ local function isCommonerOrPublican(speaker)
     return isMatchingClass(speaker, "Commoner") or isMatchingClass(speaker, "Publican")
 end
 
-local isTransportClass = function(speaker)
+local isCaravanerOrShipmaster = function(speaker)
     return isMatchingClass(speaker, "Caravaner") or isMatchingClass(speaker, "Shipmaster")
 end
 
@@ -43,7 +43,7 @@ local hasSonOnSolstheim = function(speaker)
     if (roll100 > config.hasSonOnSolstheimChance) then return false end
 
     local faction = getSpeakerFaction(speaker)
-    if faction  -- если это рыцарь Имперского Легиона
+    if faction  -- если это Рыцарь Имперского Легиона
         and (faction == "Imperial Legion")
         and (getSpeakerFactionRank(speaker) > 4) then
         return false
@@ -53,8 +53,6 @@ local hasSonOnSolstheim = function(speaker)
 end
 
 local canDiscussNewMine = function(speaker)
-    -- Нам уже было поручено доставить рабочих к месту закладки шахты (Квест "Закладка шахты")
-    if (tes3.getJournalIndex({id = "CO_1"}) >= 10) then return false end
     if (roll100 > config.canDiscussNewMineChance) then return false end
     if not isCommonerOrPublican(speaker) then return false end
 
@@ -87,7 +85,7 @@ local dialogues = {
     -- "Солстхейм".
     -- Караванщик/корабельщик расскажет, что в Хууле есть лодка.
     -- Условия CS: BM_Rumors >= 50
-    ["2278720479126556737"] = isTransportClass,
+    ["2278720479126556737"] = isCaravanerOrShipmaster,
     -- Данмер-обыватель/трактирщик расскажет, что в Хууле должна быть лодка.
     -- Условия CS: BM_Rumors < 50. Set BM_Rumors = 50
     ["2798917491184915920"] = checkIsDunmerComOrPub, -- Disp 70
