@@ -35,7 +35,7 @@ end
 local roll100
 event.register("uiActivated", function(e)
     if e.element.name == "MenuDialog" then
-            roll100 = math.random(100)
+        roll100 = math.random(100)
     end
 end)
 

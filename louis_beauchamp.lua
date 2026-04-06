@@ -8,7 +8,7 @@ local function manageNpc()
         louisBeauchamp:enable()
     elseif not shouldExist and not louisBeauchamp.disabled then
         louisBeauchamp:disable()
-        louisBeauchamp.modified = false
+        louisBeauchamp.modified = false -- не записываем в сейв, чтобы мод удалялся без очистки.
     end
 end
 
@@ -22,9 +22,11 @@ local function onLevelUp()
 end
 event.register(tes3.event.levelUp, onLevelUp)
 
--- Без этого при загрузке старого low-lvl сохранения 2 раза подряд,
--- в котором вы смотрите на Луи - выкинет с ошибкой анимации Луи
+-- Но тогда требуется восстанавливать Луи до loaded, чтобы игра не пыталась взять анимацию у disabled
 local function onLoad()
     tes3.getReference("louis beauchamp"):enable()
 end
 event.register("load", onLoad)
+-- Но это приведет к появлению Луи в текущей игре, когда пытаешься загрузить сохранение,
+-- в котором различаются мастер-файлы
+-- (событие load сработало, но ты еще можешь нажать отмену загрузки, и остаться в игре)
