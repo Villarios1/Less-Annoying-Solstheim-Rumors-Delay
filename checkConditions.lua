@@ -27,7 +27,7 @@ local function isCommonerOrPublican(speaker)
     return isMatchingClass(speaker, "Commoner") or isMatchingClass(speaker, "Publican")
 end
 
-local isCaravanerOrShipmaster = function(speaker)
+local function isCaravanerOrShipmaster(speaker)
     return isMatchingClass(speaker, "Caravaner") or isMatchingClass(speaker, "Shipmaster")
 end
 
@@ -39,7 +39,7 @@ event.register("uiActivated", function(e)
     end
 end)
 
-local hasSonOnSolstheim = function(speaker)
+local function hasSonOnSolstheim(speaker)
     if (roll100 > config.hasSonOnSolstheimChance) then return false end
 
     local faction = getSpeakerFaction(speaker)
@@ -52,9 +52,16 @@ local hasSonOnSolstheim = function(speaker)
     return true
 end
 
-local canDiscussNewMine = function(speaker)
+local function canDiscussNewMine(speaker)
     if (roll100 > config.canDiscussNewMineChance) then return false end
     if not isCommonerOrPublican(speaker) then return false end
+
+    return true
+end
+
+local function checkAgentRumor(speaker)
+    if not isAgent(speaker) then return false end
+    if (roll100 > config.agentRumorChance) then return false end
 
     return true
 end
@@ -80,7 +87,7 @@ local dialogues = {
     ["3103210864206706477"] = canDiscussNewMine,
     -- Агент расскажет о том, что в Форте какие-то проблемы
     -- Условия CS: BM_Rumors < 50, NoLore == 0. Set BM_Rumors = 10
-    ["29678150921094025770"] = isAgent,
+    ["29678150921094025770"] = checkAgentRumor,
 
     -- "Солстхейм".
     -- Караванщик/корабельщик расскажет, что в Хууле есть лодка.
