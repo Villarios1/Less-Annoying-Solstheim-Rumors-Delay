@@ -95,7 +95,7 @@ local dialogues = {
 
 -- Наши условия дял каждого интересующего нас диалога
 local function checkConditions(id, speaker)
-    if not (tes3.player.object.level <= config.requiredPlayerLevel) then return false end
+    if tes3.player.object.level <= config.requiredPlayerLevel then return false end
 
     -- Проверка на Солстхейм не нужна - там у всех (вроде бы) noLore
     if config.checkIsInMournhold and isMournholdModuleAvailable then
